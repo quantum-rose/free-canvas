@@ -83,7 +83,7 @@ export class Complex {
         return c === this.a && 0 === this.b;
     }
 
-    public nealyEquals(c: Complex | number, tolerance = 1e-6) {
+    public nearlyEquals(c: Complex | number, tolerance = 1e-6) {
         if (c instanceof Complex) {
             return Math.abs(this.a - c.a) < tolerance && Math.abs(this.b - c.b) < tolerance;
         }

@@ -35,7 +35,7 @@ export class PolygonRenderTask extends RenderTask {
                 path.forEach((point, i, arr) => {
                     const start = point;
                     const end = arr[(i + 1) % arr.length];
-                    if (start.nealyEquals(end)) {
+                    if (start.nearlyEquals(end)) {
                         return;
                     }
                     if (this._strokeColors[colorIndex] === undefined) {
