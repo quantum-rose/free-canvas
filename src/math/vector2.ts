@@ -1,3 +1,5 @@
+import { Vector2Function } from './functions/vector2function';
+
 export class Vector2 extends Array<number> {
     public get x() {
         return this[0];
@@ -21,72 +23,105 @@ export class Vector2 extends Array<number> {
     }
 
     public set(x: number, y: number) {
+        return Vector2Function.set(this, x, y);
+    }
+
+    public setX(x: number) {
         this[0] = x;
+        return this;
+    }
+
+    public setY(y: number) {
         this[1] = y;
         return this;
     }
 
-    public clone() {
-        return new Vector2(this[0], this[1]);
-    }
-
     public copy(v: number[]) {
-        this[0] = v[0];
-        this[1] = v[1];
-        return this;
+        return Vector2Function.copy(this, v);
     }
 
     public add(v: number[]) {
-        this[0] += v[0];
-        this[1] += v[1];
-        return this;
+        return Vector2Function.add(this, this, v);
     }
 
     public sub(v: number[]) {
-        this[0] -= v[0];
-        this[1] -= v[1];
-        return this;
+        return Vector2Function.sub(this, this, v);
     }
 
     public dot(v: number[]) {
-        return this[0] * v[0] + this[1] * v[1];
+        return Vector2Function.dot(this, v);
     }
 
     public cross(v: number[]) {
-        return this[0] * v[1] - this[1] * v[0];
+        return Vector2Function.cross(this, v);
     }
 
-    public scale(scalar: number) {
-        this[0] *= scalar;
-        this[1] *= scalar;
-        return this;
+    public scale(s: number) {
+        return Vector2Function.scale(this, this, s);
+    }
+
+    public multiply(v: number[]) {
+        return Vector2Function.multiply(this, this, v);
+    }
+
+    public divide(v: number[]) {
+        return Vector2Function.divide(this, this, v);
     }
 
     public negate() {
-        return this.scale(-1);
+        return Vector2Function.negate(this, this);
     }
 
-    public applyMatrix3(m: number[]) {
-        const { x, y } = this;
-        this[0] = m[0] * x + m[3] * y + m[6];
-        this[1] = m[1] * x + m[4] * y + m[7];
-        return this;
+    public invert() {
+        return Vector2Function.invert(this, this);
+    }
+
+    public normalize() {
+        return Vector2Function.normalize(this, this);
     }
 
     public len() {
-        return Math.hypot(this[0], this[1]);
+        return Vector2Function.len(this);
+    }
+
+    public squaredLength() {
+        return Vector2Function.squaredLength(this);
     }
 
     public setLength(length: number) {
         return this.normalize().scale(length);
     }
 
-    public normalize() {
-        return this.scale(1 / (this.len() || 1));
+    public distanceTo(v: number[]) {
+        return Vector2Function.distance(this, v);
+    }
+
+    public squaredDistanceTo(v: number[]) {
+        return Vector2Function.squaredDistance(this, v);
     }
 
     public angle() {
         return Math.atan2(-this[1], -this[0]) + Math.PI;
+    }
+
+    public applyMatrix2(m: number[]) {
+        return Vector2Function.transformMatrix2(this, this, m);
+    }
+
+    public applyMatrix2D(m: number[]) {
+        return Vector2Function.transformMatrix2D(this, this, m);
+    }
+
+    public applyMatrix3(m: number[]) {
+        return Vector2Function.transformMatrix3(this, this, m);
+    }
+
+    public applyMatrix4(m: number[]) {
+        return Vector2Function.transformMatrix4(this, this, m);
+    }
+
+    public lerp(v: number[], t: number) {
+        return Vector2Function.lerp(this, this, v, t);
     }
 
     public rotate(angle: number, center: number[] = [0, 0]) {
@@ -99,15 +134,11 @@ export class Vector2 extends Array<number> {
         return this;
     }
 
-    public distanceTo(v: number[]) {
-        return Math.hypot(this[0] - v[0], this[1] - v[1]);
-    }
-
     public equals(v: number[]) {
         return v[0] === this[0] && v[1] === this[1];
     }
 
-    public nealyEquals(v: number[], tolerance = 1e-6) {
+    public nearlyEquals(v: number[], tolerance = 1e-6) {
         return Math.abs(this[0] - v[0]) < tolerance && Math.abs(this[1] - v[1]) < tolerance;
     }
 
@@ -127,5 +158,9 @@ export class Vector2 extends Array<number> {
         this[0] = Math.random();
         this[1] = Math.random();
         return this;
+    }
+
+    public clone() {
+        return new Vector2(this[0], this[1]);
     }
 }
