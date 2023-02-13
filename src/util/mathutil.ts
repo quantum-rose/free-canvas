@@ -14,11 +14,10 @@ export class MathUtil {
      * 阶乘
      */
     public static factorial(n: number): number {
-        const cache = MathUtil._factorialCache[n];
-        if (cache !== undefined) {
-            return cache;
+        if (MathUtil._factorialCache[n] === undefined) {
+            MathUtil._factorialCache[n] = n * MathUtil.factorial(n - 1);
         }
-        return n * MathUtil.factorial(n - 1);
+        return MathUtil._factorialCache[n];
     }
 
     /**
@@ -33,5 +32,19 @@ export class MathUtil {
      */
     public static isPowerOf2(n: number) {
         return (n & (n - 1)) === 0;
+    }
+
+    /**
+     * 直角坐标转极坐标
+     */
+    public static toPolar(x: number, y: number): [number, number] {
+        return [Math.hypot(x, y), Math.atan2(y, x)];
+    }
+
+    /**
+     * 极坐标转直角坐标
+     */
+    public static fromPolar(r: number, theta: number): [number, number] {
+        return [r * Math.cos(theta), r * Math.sin(theta)];
     }
 }

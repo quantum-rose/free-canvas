@@ -1,7 +1,8 @@
 import { RenderTask } from '../canvas';
 import { MouseEventContext } from '../interfaces';
-import { Bound, MathUtil, Parametric, Vector2 } from '../math';
+import { Bound, Parametric, Vector2 } from '../math';
 import { DrawUtil } from '../util/drawutil';
+import { MathUtil } from '../util/mathutil';
 
 export class InteractiveRenderTask extends RenderTask {
     private static _origin = new Vector2();
