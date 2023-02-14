@@ -38,7 +38,13 @@ export class SegmentRenderTask extends RenderTask {
                         this._triagle(cvsCtx, middle, dir, color, pixelSize);
                         this._number(cvsCtx, middle, dir, i.toString(), color, pixelSize);
                     } else {
+                        const middleDir = new Vector2(segment.radius, 0).rotate((segment.startAngle + segment.endAngle) / 2);
+                        const middle = new Vector2(segment.centerPoint.x, segment.centerPoint.y).add(middleDir);
+                        const middleTangent = middleDir.normalize().rotate(Math.PI / (segment.startAngle > segment.endAngle ? -2 : 2));
                         this._arc(cvsCtx, segment, color, pixelSize);
+                        this._triagle(cvsCtx, middle, middleTangent, color, pixelSize);
+                        this._number(cvsCtx, middle, middleTangent, i.toString(), color, pixelSize);
+                        console.log(middle);
                     }
                     colorIndex++;
                 })
