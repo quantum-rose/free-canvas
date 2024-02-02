@@ -1,5 +1,6 @@
 import { MouseEventContext } from '../interfaces';
 import { Bound, Matrix3, Vector2 } from '../math';
+import { MathUtil } from '../util/mathutil';
 import { RenderTask } from './rendertask';
 
 export class Canvas {
@@ -18,6 +19,8 @@ export class Canvas {
     private _shouldRender = true;
 
     private _matrix = new Matrix3().scale(1, -1);
+
+    private _zoomLimit = [0.01, 100];
 
     private get _zoom() {
         return Math.hypot(this._matrix[0], this._matrix[3]);
@@ -64,6 +67,8 @@ export class Canvas {
         } else {
             this._matrix.scale(1.25, 1.25);
         }
+        const scale = MathUtil.clamp(this._zoom, this._zoomLimit[0], this._zoomLimit[1]) / this._zoom;
+        this._matrix.scale(scale, scale);
         this._matrix.translate(e.offsetX, e.offsetY);
         this._renderTasks.forEach(task => task.onWheel());
         this._shouldRender = true;
