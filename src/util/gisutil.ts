@@ -79,12 +79,13 @@ export class GISUtil {
      * 瓦片坐标转 UTM
      */
     public static tileToUTM(x: number, y: number, z: number): [number, number] {
-        let lonLat = GISUtil.tileUTMMap.get(`${x}-${y}-${z}`);
-        if (!lonLat) {
-            lonLat = GISUtil.tileToLonLat(x, y, z);
-            GISUtil.tileUTMMap.set(`${x}-${y}-${z}`, lonLat);
+        let utm = GISUtil.tileUTMMap.get(`${x}-${y}-${z}`);
+        if (!utm) {
+            const lonLat = GISUtil.tileToLonLat(x, y, z);
+            utm = GISUtil.wgs84ToUTM(lonLat);
+            GISUtil.tileUTMMap.set(`${x}-${y}-${z}`, utm);
         }
-        return GISUtil.wgs84ToUTM(lonLat);
+        return utm;
     }
 
     /**
